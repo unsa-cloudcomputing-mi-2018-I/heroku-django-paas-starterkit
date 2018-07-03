@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'common',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +144,25 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 WHITENOISE_STATIC_PREFIX = STATIC_URL
+
+# AWS CONFIG
+
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')  # 'wtfbox'
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')  # 'AKIAJP3A35CS6T73NK6Q'
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+MEDIAFILES_LOCATION = 'media'
+
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+
+AMAZON_HOST = 'https://%s' % AWS_S3_CUSTOM_DOMAIN
+
+MEDIA_HOST = os.environ.get('DJANGO_MEDIA_HOST', AMAZON_HOST)
+
+MEDIA_URL = MEDIA_HOST + '/{}/'.format(MEDIAFILES_LOCATION)
+
+MEDIA_URL_FULL = MEDIA_HOST + '/{}/'.format(MEDIAFILES_LOCATION)
+
+STORAGE_URL = 'https://%s/' % AWS_S3_CUSTOM_DOMAIN
